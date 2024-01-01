@@ -37,6 +37,9 @@ import javax.annotation.Nullable;
 @SuppressWarnings("NullAway") // TODO: get rid of this class to avoid suppression
 public abstract class AbstractConfig implements Config {
 
+  /** see {@link #isOptimisticCheck()} */
+  protected boolean isOptimisticCheck;
+
   /**
    * Packages that we assume have appropriate nullability annotations.
    *
@@ -148,7 +151,20 @@ public abstract class AbstractConfig implements Config {
   }
 
   @Override
+  public boolean isOptimisticCheck() {
+    return isOptimisticCheck;
+  }
+
+  @Override
+  public boolean fromExplicitlyAnnotatedPackageWithOptimisticCheckWithMatchClass(String className) {
+    return annotatedPackages.matcher(className).matches();
+  }
+
+  @Override
   public boolean fromExplicitlyAnnotatedPackage(String className) {
+    if (isOptimisticCheck) {
+      return false;
+    }
     return annotatedPackages.matcher(className).matches();
   }
 

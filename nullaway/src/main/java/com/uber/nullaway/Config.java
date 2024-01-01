@@ -48,6 +48,12 @@ public interface Config {
    */
   FixSerializationConfig getSerializationConfig();
 
+  /** 开启乐观检查 假定代码是Null-Safe的, 作为消费方值类型是NotNull, 作为提供方值类型是Nullable */
+  boolean isOptimisticCheck();
+
+  /** 乐观检查时判断一个类是否参与NullSafe检查 */
+  boolean fromExplicitlyAnnotatedPackageWithOptimisticCheckWithMatchClass(String className);
+
   /**
    * Checks if a class comes from an explicitly annotated package.
    *

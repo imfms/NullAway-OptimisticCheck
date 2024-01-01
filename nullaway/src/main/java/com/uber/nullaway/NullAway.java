@@ -486,10 +486,17 @@ public class NullAway extends BugChecker
       return Description.NO_MATCH;
     }
 
-    if (Nullness.hasNullableAnnotation(assigned, config)
-        || handler.onOverrideFieldNullability(assigned)) {
-      // field already annotated
-      return Description.NO_MATCH;
+    if (config.isOptimisticCheck()) {
+      if (!Nullness.hasNonNullAnnotation(assigned, config)) {
+        // field no annotated
+        return Description.NO_MATCH;
+      }
+    } else {
+      if (Nullness.hasNullableAnnotation(assigned, config)
+          || handler.onOverrideFieldNullability(assigned)) {
+        // field already annotated
+        return Description.NO_MATCH;
+      }
     }
     ExpressionTree expression = tree.getExpression();
     if (mayBeNullExpr(state, expression)) {
@@ -2253,9 +2260,13 @@ public class NullAway extends BugChecker
   }
 
   private boolean skipDueToFieldAnnotation(Symbol fieldSymbol) {
-    return NullabilityUtil.getAllAnnotations(fieldSymbol, config)
-        .map(anno -> anno.getAnnotationType().toString())
-        .anyMatch(config::isExcludedFieldAnnotation);
+    if (config.isOptimisticCheck()) {
+      return !Nullness.hasNonNullAnnotation(fieldSymbol, config);
+    } else {
+      return NullabilityUtil.getAllAnnotations(fieldSymbol, config)
+          .map(anno -> anno.getAnnotationType().toString())
+          .anyMatch(config::isExcludedFieldAnnotation);
+    }
   }
 
   // classSymbol must be a top-level class
@@ -2264,8 +2275,14 @@ public class NullAway extends BugChecker
     if (config.isExcludedClass(className)) {
       return true;
     }
-    if (!codeAnnotationInfo.isClassNullAnnotated(classSymbol, config)) {
-      return true;
+    if (config.isOptimisticCheck()) {
+      if (!config.fromExplicitlyAnnotatedPackageWithOptimisticCheckWithMatchClass(className)) {
+        return true;
+      }
+    } else {
+      if (!codeAnnotationInfo.isClassNullAnnotated(classSymbol, config)) {
+        return true;
+      }
     }
     // check annotations
     ImmutableSet<String> excludedClassAnnotations = config.getExcludedClassAnnotations();
