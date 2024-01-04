@@ -90,6 +90,16 @@ public class DummyOptionsConfig implements Config {
   }
 
   @Override
+  public boolean disableDefaultWildcardNonNullAnnotation() {
+    throw new IllegalStateException(ERROR_MESSAGE);
+  }
+
+  @Override
+  public boolean disableDefaultWildcardNullableAnnotation() {
+    throw new IllegalStateException(ERROR_MESSAGE);
+  }
+
+  @Override
   public boolean isExcludedClass(String className) {
     throw new IllegalStateException(ERROR_MESSAGE);
   }

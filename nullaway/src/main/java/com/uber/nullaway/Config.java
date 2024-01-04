@@ -54,6 +54,12 @@ public interface Config {
   /** 乐观检查时判断一个类是否参与NullSafe检查 */
   boolean fromExplicitlyAnnotatedPackageWithOptimisticCheckWithMatchClass(String className);
 
+  /** 关闭默认通配符NonNull注解 */
+  boolean disableDefaultWildcardNonNullAnnotation();
+
+  /** 关闭默认通配符Nullable注解 */
+  boolean disableDefaultWildcardNullableAnnotation();
+
   /**
    * Checks if a class comes from an explicitly annotated package.
    *

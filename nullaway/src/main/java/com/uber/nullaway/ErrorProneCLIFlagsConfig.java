@@ -41,6 +41,10 @@ final class ErrorProneCLIFlagsConfig extends AbstractConfig {
 
   static final String EP_FL_NAMESPACE = "NullAway";
   static final String FL_OPTIMISTIC_CHECK = EP_FL_NAMESPACE + ":OptimisticCheck";
+  static final String FL_DISABLE_DEFAULT_WILDCARD_NULLABLE_ANNOTATION =
+      EP_FL_NAMESPACE + ":DisableDefaultWildcardNullableAnnotation";
+  static final String FL_DISABLE_DEFAULT_WILDCARD_NONNULL_ANNOTATION =
+      EP_FL_NAMESPACE + ":DisableDefaultWildcardNonNullAnnotation";
   static final String FL_ANNOTATED_PACKAGES = EP_FL_NAMESPACE + ":AnnotatedPackages";
   static final String FL_ASSERTS_ENABLED = EP_FL_NAMESPACE + ":AssertsEnabled";
   static final String FL_UNANNOTATED_SUBPACKAGES = EP_FL_NAMESPACE + ":UnannotatedSubPackages";
@@ -175,6 +179,10 @@ final class ErrorProneCLIFlagsConfig extends AbstractConfig {
               + " at https://github.com/uber/NullAway/issues.");
     }
     isOptimisticCheck = flags.getBoolean(FL_OPTIMISTIC_CHECK).orElse(false);
+    disableDefaultWildcardNullableAnnotation =
+        flags.getBoolean(FL_DISABLE_DEFAULT_WILDCARD_NULLABLE_ANNOTATION).orElse(false);
+    disableDefaultWildcardNonNullAnnotation =
+        flags.getBoolean(FL_DISABLE_DEFAULT_WILDCARD_NONNULL_ANNOTATION).orElse(false);
     annotatedPackages = getPackagePattern(getFlagStringSet(flags, FL_ANNOTATED_PACKAGES));
     unannotatedSubPackages = getPackagePattern(getFlagStringSet(flags, FL_UNANNOTATED_SUBPACKAGES));
     sourceClassesToExclude = getFlagStringSet(flags, FL_CLASSES_TO_EXCLUDE);

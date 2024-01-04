@@ -40,6 +40,12 @@ public abstract class AbstractConfig implements Config {
   /** see {@link #isOptimisticCheck()} */
   protected boolean isOptimisticCheck;
 
+  /** see {@link #disableDefaultWildcardNullableAnnotation()} */
+  protected boolean disableDefaultWildcardNullableAnnotation;
+
+  /** see {@link #disableDefaultWildcardNonNullAnnotation()} */
+  protected boolean disableDefaultWildcardNonNullAnnotation;
+
   /**
    * Packages that we assume have appropriate nullability annotations.
    *
@@ -158,6 +164,16 @@ public abstract class AbstractConfig implements Config {
   @Override
   public boolean fromExplicitlyAnnotatedPackageWithOptimisticCheckWithMatchClass(String className) {
     return annotatedPackages.matcher(className).matches();
+  }
+
+  @Override
+  public boolean disableDefaultWildcardNonNullAnnotation() {
+    return disableDefaultWildcardNonNullAnnotation;
+  }
+
+  @Override
+  public boolean disableDefaultWildcardNullableAnnotation() {
+    return disableDefaultWildcardNullableAnnotation;
   }
 
   @Override

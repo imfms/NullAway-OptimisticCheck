@@ -151,13 +151,19 @@ public enum Nullness implements AbstractValue<Nullness> {
    * @return true if we treat annotName as a <code>@Nullable</code> annotation, false otherwise
    */
   public static boolean isNullableAnnotation(String annotName, Config config) {
-    return annotName.endsWith(".Nullable")
-        // endsWith and not equals and no `org.`, because gradle's shadow plug in rewrites strings
-        // and will replace `org.checkerframework` with `shadow.checkerframework`. Yes, really...
-        // I assume it's something to handle reflection.
-        || annotName.endsWith(".checkerframework.checker.nullness.compatqual.NullableDecl")
-        // matches javax.annotation.CheckForNull and edu.umd.cs.findbugs.annotations.CheckForNull
-        || annotName.endsWith(".CheckForNull")
+    boolean wildMatched =
+        !config.disableDefaultWildcardNullableAnnotation()
+            && (annotName.endsWith(".Nullable")
+                // endsWith and not equals and no `org.`, because gradle's shadow plug in rewrites
+                // strings
+                // and will replace `org.checkerframework` with `shadow.checkerframework`. Yes,
+                // really...
+                // I assume it's something to handle reflection.
+                || annotName.endsWith(".checkerframework.checker.nullness.compatqual.NullableDecl")
+                // matches javax.annotation.CheckForNull and
+                // edu.umd.cs.findbugs.annotations.CheckForNull
+                || annotName.endsWith(".CheckForNull"));
+    return wildMatched
         // matches any of the multiple @ParametricNullness annotations used within Guava
         // (see https://github.com/google/guava/issues/6126)
         // We check the simple name first and the package prefix second for boolean short
@@ -176,9 +182,12 @@ public enum Nullness implements AbstractValue<Nullness> {
    * @return true if we treat annotName as a <code>@NonNull</code> annotation, false otherwise
    */
   private static boolean isNonNullAnnotation(String annotName, Config config) {
-    return annotName.endsWith(".NonNull")
-        || annotName.endsWith(".NotNull")
-        || annotName.endsWith(".Nonnull")
+    boolean wildMatched =
+        !config.disableDefaultWildcardNonNullAnnotation()
+            && (annotName.endsWith(".NonNull")
+                || annotName.endsWith(".NotNull")
+                || annotName.endsWith(".Nonnull"));
+    return wildMatched
         || (config.acknowledgeAndroidRecent()
             && annotName.equals("androidx.annotation.RecentlyNonNull"))
         || config.isCustomNonnullAnnotation(annotName);
