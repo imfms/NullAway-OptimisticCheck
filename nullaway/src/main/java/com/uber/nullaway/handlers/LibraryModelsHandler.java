@@ -690,6 +690,18 @@ public class LibraryModelsHandler extends BaseNoOpHandler {
             .put(methodRef("spark.utils.ObjectUtils", "isEmpty(java.lang.Object[])"), 0)
             .put(methodRef("spark.utils.CollectionUtils", "isEmpty(java.util.Collection<?>)"), 0)
             .put(methodRef("spark.utils.StringUtils", "isEmpty(java.lang.Object)"), 0)
+            .put(
+                methodRef(
+                    "org.apache.commons.collections.CollectionUtils",
+                    "isEmpty(java.util.Collection)"),
+                0)
+            .put(
+                methodRef("cn.hutool.core.collection.CollUtil", "isEmpty(java.util.Collection<?>)"),
+                0)
+            .put(
+                methodRef(
+                    "cn.hutool.core.collection.CollectionUtil", "isEmpty(java.util.Collection<?>)"),
+                0)
             .put(methodRef("spark.utils.StringUtils", "isBlank(java.lang.CharSequence)"), 0)
             .put(methodRef("android.text.TextUtils", "isEmpty(java.lang.CharSequence)"), 0)
             .put(methodRef("org.apache.commons.lang.StringUtils", "isEmpty(java.lang.String)"), 0)
@@ -715,6 +727,15 @@ public class LibraryModelsHandler extends BaseNoOpHandler {
             .put(
                 methodRef(
                     "org.springframework.util.StringUtils", "hasText(java.lang.CharSequence)"),
+                0)
+            .put(
+                methodRef(
+                    "cn.hutool.core.collection.CollUtil", "isNotEmpty(java.util.Collection<?>)"),
+                0)
+            .put(
+                methodRef(
+                    "cn.hutool.core.collection.CollectionUtil",
+                    "isNotEmpty(java.util.Collection<?>)"),
                 0)
             .put(methodRef("spark.utils.CollectionUtils", "isNotEmpty(java.util.Collection<?>)"), 0)
             .put(methodRef("spark.utils.StringUtils", "isNotEmpty(java.lang.String)"), 0)
@@ -765,7 +786,6 @@ public class LibraryModelsHandler extends BaseNoOpHandler {
             .add(methodRef("java.lang.ref.WeakReference", "get()"))
             .add(methodRef("java.nio.file.Path", "getParent()"))
             .add(methodRef("java.util.concurrent.atomic.AtomicReference", "get()"))
-            .add(methodRef("java.util.Map", "get(java.lang.Object)"))
             .add(methodRef("javax.lang.model.element.Element", "getEnclosingElement()"))
             .add(methodRef("javax.lang.model.element.ExecutableElement", "getDefaultValue()"))
             .add(methodRef("javax.lang.model.element.PackageElement", "getEnclosingElement()"))
