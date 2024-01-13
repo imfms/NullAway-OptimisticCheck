@@ -29,6 +29,8 @@ dependencies {
 }
 
 tasks.withType(JavaCompile) {
+    options.fork = true
+    options.forkOptions.jvmArgs += ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8000"]
     if (!name.toLowerCase().contains("test")) {
         options.errorprone.disableAllChecks = true
         options.errorprone {
