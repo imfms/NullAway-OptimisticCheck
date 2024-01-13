@@ -30,9 +30,11 @@ dependencies {
 
 tasks.withType(JavaCompile) {
     if (!name.toLowerCase().contains("test")) {
+        options.errorprone.disableAllChecks = true
         options.errorprone {
             check("NullAway", CheckSeverity.ERROR)
             option("NullAway:AnnotatedPackages", "com.uber")
+            option("NullAway:AcknowledgeRestrictiveAnnotations", true)
         }
     }
 }
