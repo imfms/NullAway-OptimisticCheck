@@ -26,6 +26,11 @@ dependencies {
 
     compileOnly deps.build.jsr305Annotations
     testImplementation deps.test.junit4
+
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+    compileOnly 'org.jspecify:jspecify:0.3.0'
 }
 
 tasks.withType(JavaCompile) {
@@ -36,7 +41,11 @@ tasks.withType(JavaCompile) {
         options.errorprone {
             check("NullAway", CheckSeverity.ERROR)
             option("NullAway:AnnotatedPackages", "com.uber")
+            option("NullAway:OptimisticCheck", true)
             option("NullAway:AcknowledgeRestrictiveAnnotations", true)
+            option("NullAway:CustomNullableAnnotations", "org.jspecify.annotations.Nullable")
+            option("NullAway:CustomNonnullAnnotations", "org.jspecify.annotations.NonNull")
+            option("NullAway:AssertsEnabled", "true")
         }
     }
 }
